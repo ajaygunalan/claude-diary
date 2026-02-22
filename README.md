@@ -18,9 +18,9 @@ git clone https://github.com/ajaygunalan/claude-diary claude-diary
 cd claude-diary
 ```
 
-2. **Install commands**:
+2. **Install skills**:
 ```bash
-cp commands/*.md ~/.claude/commands/
+cp -r skills/* ~/.claude/skills/
 ```
 
 3. **Install PreCompact hook** (for auto-diary generation):
@@ -75,7 +75,7 @@ chmod +x ~/.claude/hooks/pre-compact.sh
 
 ### Diary Entries
 
-The `/diary` command creates diary entries from the current session. It uses a context-first approach, reflecting on the conversation already in Claude Code's context, but can also parse JSONL transcripts, which are logged for each session to the project directory. See [diary.md](commands/diary.md) for details. The `diary` command can be run in two ways:
+The `/diary` command creates diary entries from the current session. It uses a context-first approach, reflecting on the conversation already in Claude Code's context, but can also parse JSONL transcripts, which are logged for each session to the project directory. See [SKILL.md](skills/diary/SKILL.md) for details. The `diary` command can be run in two ways:
 
 1. **Automatic**: PreCompact hook runs before conversation compacts (long sessions, 200+ messages). This could be customized to run at different points using different [Claude Code hooks](https://code.claude.com/docs/en/hooks-guide).
 2. **Manual**: Run `/diary` anytime to capture important context in the current session
@@ -86,7 +86,7 @@ The command instructs Claude to create diary entries by reflecting on the conver
 
 ### Reflection
 
-The `/reflect` command analyzes diary entries to identify patterns and automatically updates `CLAUDE.md`. See [reflect.md](commands/reflect.md) for details. The `reflect` command can be run in manually in any session; run `/reflect` anytime you have accumulated diary entries and want to update `CLAUDE.md` with new learnings.
+The `/reflect` command analyzes diary entries to identify patterns and automatically updates `CLAUDE.md`. See [SKILL.md](skills/reflect/SKILL.md) for details. The `reflect` command can be run in manually in any session; run `/reflect` anytime you have accumulated diary entries and want to update `CLAUDE.md` with new learnings.
 
 #### How the Reflect Command Works
 
@@ -122,9 +122,11 @@ This plugin follows the [Claude Code plugin structure](https://code.claude.com/d
 cc-memory/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin metadata
-├── commands/
-│   ├── diary.md                 # /diary command prompt
-│   └── reflect.md               # /reflect command prompt
+├── skills/
+│   ├── diary/
+│   │   └── SKILL.md             # /diary skill prompt
+│   └── reflect/
+│       └── SKILL.md             # /reflect skill prompt
 ├── hooks/
 │   ├── pre-compact.sh           # Auto-diary generation hook
 │   └── README.md                # Hook installation guide
@@ -137,7 +139,7 @@ cc-memory/
 ```
 
 To modify or extend:
-1. Edit command files in `commands/`
+1. Edit skill files in `skills/`
 2. Test locally using the local marketplace approach
 3. Share your improvements
 

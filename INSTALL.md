@@ -64,14 +64,13 @@ This method allows you to manage the plugin like any other Claude Code plugin.
    /reflect
    ```
 
-### Method 2: Manual Command Installation
+### Method 2: Manual Skill Installation
 
-This method copies just the commands without full plugin structure.
+This method copies just the skills without full plugin structure.
 
-1. **Copy commands to your global commands directory**:
+1. **Copy skills to your global skills directory**:
    ```bash
-   cp commands/diary.md ~/.claude/commands/
-   cp commands/reflect.md ~/.claude/commands/
+   cp -r skills/* ~/.claude/skills/
    ```
 
 2. **Verify installation**:
@@ -173,10 +172,10 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 ### "Command not found: /diary"
 
-**Problem**: Claude Code doesn't recognize the command.
+**Problem**: Claude Code doesn't recognize the skill.
 
 **Solutions**:
-1. Check that the command file exists: `ls ~/.claude/commands/diary.md`
+1. Check that the skill file exists: `ls ~/.claude/skills/diary/SKILL.md`
 2. Restart Claude Code
 3. Try the full plugin installation method instead
 
@@ -236,10 +235,9 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 ### If installed manually:
 1. Pull the latest changes: `cd ~/Desktop/Code/cc-memory && git pull`
-2. Copy updated commands:
+2. Copy updated skills:
    ```bash
-   cp commands/diary.md ~/.claude/commands/
-   cp commands/reflect.md ~/.claude/commands/
+   cp -r skills/* ~/.claude/skills/
    ```
 3. Restart Claude Code
 
@@ -250,8 +248,8 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 ### If installed manually:
 ```bash
-rm ~/.claude/commands/diary.md
-rm ~/.claude/commands/reflect.md
+rm -r ~/.claude/skills/diary
+rm -r ~/.claude/skills/reflect
 ```
 
 **Note**: This does not delete your diary entries or reflections. To remove those:

@@ -112,7 +112,7 @@ echo "/diary"
 - Verify hook name matches exactly: `pre-compact.sh`
 
 **Diary not being created?**
-- Verify `/diary` command is available (commands installed)
+- Verify `/diary` skill is available (skills installed)
 - Check diary directory exists: `~/.claude/diary/<project>/`
 - Try running `/diary` manually to test
 - Check Claude Code output for hook execution messages
