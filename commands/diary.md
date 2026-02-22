@@ -146,7 +146,7 @@ Based on the conversation context (and optional metadata from Step 3), create a 
 [Any other observations]
 ```
 
-### 4. Save the Diary Entry
+### 5. Save the Diary Entry
 
 Run this command to save the entry:
 
@@ -166,7 +166,7 @@ echo "Saved to: $DIARY_FILE"
 
 Use the Write tool to actually write the diary content to the determined file path.
 
-### 5. Confirm Completion
+### 6. Confirm Completion
 
 Display:
 - Path where diary was saved

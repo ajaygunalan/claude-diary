@@ -82,7 +82,7 @@ The `/diary` command creates diary entries from the current session. It uses a c
 
 #### How the Diary Command Works
 
-The command instructs Claude to create diary entries by reflecting on the conversation history in context (user messages, tool invocations, files modified, errors, solutions). It then instructs Claude to write the diary entry to a file in the `~/.claude/diary/<project>/` directory as a markdown file with sections for task summary, work done, design decisions, user preferences, code review feedback, challenges, solutions, and code patterns. It instructs Claude to be factual and specific, capture the "why" behind decisions, document ALL user preferences (especially commits/PRs/linting/testing), include failures as learning. The output location is `~/.claude/diary/<project>/YYYY-MM-DD-session-N.md` (where `<project>` is the basename of the current working directory).
+The command instructs Claude to create diary entries by reflecting on the conversation history in context (user messages, tool invocations, files modified, errors, solutions). It then instructs Claude to write the diary entry to a file in the `~/.claude/diary/<project>/` directory as a markdown file with sections for task summary, work done, design decisions, user preferences, code review feedback, challenges, solutions, and code patterns. It instructs Claude to be factual and specific, capture the "why" behind decisions, document ALL user preferences (especially commits/PRs/linting/testing), include failures as learning. The output location is `~/.claude/diary/<project>/YYYY-MM-DD-session-N.md` (where `<project>` is the git repo name, consistent across worktrees).
 
 ### Reflection
 

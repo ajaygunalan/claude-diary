@@ -110,11 +110,11 @@ You should see a directory for each project you've used the plugin with.
 1. **Create a test diary entry**:
    - Do some work in Claude Code (any session)
    - Run `/diary`
-   - Check that a file was created: `ls -la ~/.claude/diary/$(basename "$(pwd)")/`
+   - Check that a file was created: `ls -la ~/.claude/diary/<project>/`
 
 2. **Test reflection** (after you have 2-3 diary entries):
    - Run `/reflect`
-   - Verify a reflection file was created: `ls -la ~/.claude/diary/$(basename "$(pwd)")/reflections/`
+   - Verify a reflection file was created: `ls -la ~/.claude/diary/<project>/reflections/`
 
 ### 4. Set Up PreCompact Hook (Optional - For Automatic Diary Generation)
 
@@ -196,7 +196,7 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 **Solutions**:
 1. Check ownership: `ls -la ~/.claude/`
 2. Fix permissions: `chmod 755 ~/.claude/diary/`
-3. Manually create directories: `PROJECT_NAME=$(basename "$(pwd)") && mkdir -p ~/.claude/diary/${PROJECT_NAME}/reflections`
+3. Manually create directories: `PROJECT_NAME=$(git remote get-url origin 2>/dev/null | sed 's|.*/||; s|\.git$||' || basename "$(pwd)") && mkdir -p ~/.claude/diary/${PROJECT_NAME}/reflections`
 
 ### "No diary entries found" when running /reflect
 
@@ -204,8 +204,8 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 **Solutions**:
 1. Run `/diary` first to create some entries
-2. Check that diary files exist: `ls ~/.claude/diary/$(basename "$(pwd)")/`
-3. Verify file permissions: `ls -la ~/.claude/diary/$(basename "$(pwd)")/`
+2. Check that diary files exist: `ls ~/.claude/diary/<project>/`
+3. Verify file permissions: `ls -la ~/.claude/diary/<project>/`
 
 ### PreCompact hook not running
 
