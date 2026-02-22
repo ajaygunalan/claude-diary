@@ -37,7 +37,7 @@ chmod +x ~/.claude/hooks/pre-compact.sh
 When Claude Code is about to compact the conversation, the hook:
 1. Prints a message: "📝 Auto-generating diary entry before compact..."
 2. Invokes the `/diary` command
-3. Creates a diary entry at `~/.claude/memory/diary/YYYY-MM-DD-session-N.md`
+3. Creates a diary entry at `~/.claude/diary/<project>/YYYY-MM-DD-session-N.md`
 4. Compact operation proceeds normally
 
 **Frequency**: Depends on session length and conversation size. Typically:
@@ -113,7 +113,7 @@ echo "/diary"
 
 **Diary not being created?**
 - Verify `/diary` command is available (commands installed)
-- Check memory directory exists: `~/.claude/memory/diary/`
+- Check diary directory exists: `~/.claude/diary/<project>/`
 - Try running `/diary` manually to test
 - Check Claude Code output for hook execution messages
 

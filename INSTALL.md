@@ -17,7 +17,7 @@ This method allows you to manage the plugin like any other Claude Code plugin.
 1. **Clone or download this repository**:
    ```bash
    cd ~/Desktop/Code  # or wherever you keep your code
-   git clone https://github.com/rlancemartin/claude-diary cc-memory
+   git clone https://github.com/ajaygunalan/claude-diary cc-memory
    # OR download and extract the ZIP file
    ```
 
@@ -85,13 +85,14 @@ This method copies just the commands without full plugin structure.
 
 ## Post-Installation Setup
 
-### 1. Create Memory Directories
+### 1. Create Diary Directories
 
-The plugin will create these automatically on first use, but you can create them manually if you prefer:
+The plugin will create these automatically on first use, but you can create them manually if you prefer. Diary data is stored per-project under `~/.claude/diary/<project>/` (where `<project>` is the basename of your working directory):
 
 ```bash
-mkdir -p ~/.claude/memory/diary
-mkdir -p ~/.claude/memory/reflections
+PROJECT_NAME=$(basename "$(pwd)")
+mkdir -p ~/.claude/diary/${PROJECT_NAME}
+mkdir -p ~/.claude/diary/${PROJECT_NAME}/reflections
 ```
 
 ### 2. Verify Permissions
@@ -99,21 +100,21 @@ mkdir -p ~/.claude/memory/reflections
 Make sure you have write permissions:
 
 ```bash
-ls -la ~/.claude/memory/
+ls -la ~/.claude/diary/
 ```
 
-You should see both `diary/` and `reflections/` directories.
+You should see a directory for each project you've used the plugin with.
 
 ### 3. Test the Plugin
 
 1. **Create a test diary entry**:
    - Do some work in Claude Code (any session)
    - Run `/diary`
-   - Check that a file was created: `ls -la ~/.claude/memory/diary/`
+   - Check that a file was created: `ls -la ~/.claude/diary/$(basename "$(pwd)")/`
 
 2. **Test reflection** (after you have 2-3 diary entries):
    - Run `/reflect`
-   - Verify a reflection file was created: `ls -la ~/.claude/memory/reflections/`
+   - Verify a reflection file was created: `ls -la ~/.claude/diary/$(basename "$(pwd)")/reflections/`
 
 ### 4. Set Up PreCompact Hook (Optional - For Automatic Diary Generation)
 
@@ -190,12 +191,12 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 ### "Permission denied" creating directories
 
-**Problem**: Can't write to `~/.claude/memory/`
+**Problem**: Can't write to `~/.claude/diary/`
 
 **Solutions**:
 1. Check ownership: `ls -la ~/.claude/`
-2. Fix permissions: `chmod 755 ~/.claude/memory/`
-3. Manually create directories: `mkdir -p ~/.claude/memory/{diary,reflections}`
+2. Fix permissions: `chmod 755 ~/.claude/diary/`
+3. Manually create directories: `PROJECT_NAME=$(basename "$(pwd)") && mkdir -p ~/.claude/diary/${PROJECT_NAME}/reflections`
 
 ### "No diary entries found" when running /reflect
 
@@ -203,8 +204,8 @@ cat ~/.claude/settings.json | grep -A 10 "PreCompact"
 
 **Solutions**:
 1. Run `/diary` first to create some entries
-2. Check that diary files exist: `ls ~/.claude/memory/diary/`
-3. Verify file permissions: `ls -la ~/.claude/memory/diary/`
+2. Check that diary files exist: `ls ~/.claude/diary/$(basename "$(pwd)")/`
+3. Verify file permissions: `ls -la ~/.claude/diary/$(basename "$(pwd)")/`
 
 ### PreCompact hook not running
 
@@ -255,7 +256,7 @@ rm ~/.claude/commands/reflect.md
 
 **Note**: This does not delete your diary entries or reflections. To remove those:
 ```bash
-rm -rf ~/.claude/memory/
+rm -rf ~/.claude/diary/  # removes all project diary data
 ```
 
 ## Next Steps
@@ -269,6 +270,5 @@ Once installed:
 ## Getting Help
 
 - Check the [README.md](README.md) for usage guidelines
-- Review [scope.md](scope.md) to understand the system design
 - Check Claude Code documentation for general plugin issues
 - Create an issue in the repository if you find bugs

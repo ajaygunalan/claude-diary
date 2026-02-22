@@ -14,7 +14,7 @@ Read more: [Blog post](https://rlancemartin.github.io/2025/12/01/claude_diary/)
 
 1. **Clone this repository**:
 ```bash
-git clone https://github.com/rlancemartin/claude-diary claude-diary
+git clone https://github.com/ajaygunalan/claude-diary claude-diary
 cd claude-diary
 ```
 
@@ -82,7 +82,7 @@ The `/diary` command creates diary entries from the current session. It uses a c
 
 #### How the Diary Command Works
 
-The command instructs Claude to create diary entries by reflecting on the conversation history in context (user messages, tool invocations, files modified, errors, solutions). It then instructs Claude to write the diary entry to a file in the `~/.claude/memory/diary/` directory as a markdown file with sections for task summary, work done, design decisions, user preferences, code review feedback, challenges, solutions, and code patterns. It instructs Claude to be factual and specific, capture the "why" behind decisions, document ALL user preferences (especially commits/PRs/linting/testing), include failures as learning. The output location is `~/.claude/memory/diary/YYYY-MM-DD-session-N.md`.
+The command instructs Claude to create diary entries by reflecting on the conversation history in context (user messages, tool invocations, files modified, errors, solutions). It then instructs Claude to write the diary entry to a file in the `~/.claude/diary/<project>/` directory as a markdown file with sections for task summary, work done, design decisions, user preferences, code review feedback, challenges, solutions, and code patterns. It instructs Claude to be factual and specific, capture the "why" behind decisions, document ALL user preferences (especially commits/PRs/linting/testing), include failures as learning. The output location is `~/.claude/diary/<project>/YYYY-MM-DD-session-N.md` (where `<project>` is the basename of the current working directory).
 
 ### Reflection
 
@@ -101,14 +101,11 @@ The reflect command instructs Claude to perform multi-diary pattern analysis. Fi
 # Analyze specific date range
 /reflect from 2025-01-01 to 2025-01-31
 
-# Filter by project
-/reflect for project /Users/username/Code/my-app
-
 # Filter by topic/keyword
 /reflect related to testing
 
 # Combine filters
-/reflect last 15 entries for project /Users/username/Code/my-app related to React
+/reflect last 15 entries related to React
 
 # Re-analyze including already-processed entries
 /reflect include all entries

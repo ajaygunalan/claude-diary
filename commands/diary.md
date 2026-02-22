@@ -152,12 +152,13 @@ Run this command to save the entry:
 
 ```bash
 # Create directory if needed
-mkdir -p ~/.claude/memory/diary && \
+PROJECT_NAME=$(basename "{{ cwd }}") && \
+mkdir -p ~/.claude/diary/${PROJECT_NAME} && \
 # Determine filename
 TODAY=$(date +%Y-%m-%d) && \
 N=1 && \
-while [ -f ~/.claude/memory/diary/${TODAY}-session-${N}.md ]; do N=$((N+1)); done && \
-DIARY_FILE=~/.claude/memory/diary/${TODAY}-session-${N}.md && \
+while [ -f ~/.claude/diary/${PROJECT_NAME}/${TODAY}-session-${N}.md ]; do N=$((N+1)); done && \
+DIARY_FILE=~/.claude/diary/${PROJECT_NAME}/${TODAY}-session-${N}.md && \
 # Save entry (you'll need to write the content)
 echo "[diary-content]" > "$DIARY_FILE" && \
 echo "Saved to: $DIARY_FILE"
