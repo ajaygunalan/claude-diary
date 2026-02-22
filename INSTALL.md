@@ -87,10 +87,10 @@ This method copies just the commands without full plugin structure.
 
 ### 1. Create Diary Directories
 
-The plugin will create these automatically on first use, but you can create them manually if you prefer. Diary data is stored per-project under `~/.claude/diary/<project>/` (where `<project>` is the basename of your working directory):
+The plugin will create these automatically on first use, but you can create them manually if you prefer. Diary data is stored per-project under `~/.claude/diary/<project>/` (where `<project>` is the git repo name, consistent across worktrees):
 
 ```bash
-PROJECT_NAME=$(basename "$(pwd)")
+PROJECT_NAME=$(git remote get-url origin 2>/dev/null | sed 's|.*/||; s|\.git$||' || basename "$(pwd)")
 mkdir -p ~/.claude/diary/${PROJECT_NAME}
 mkdir -p ~/.claude/diary/${PROJECT_NAME}/reflections
 ```

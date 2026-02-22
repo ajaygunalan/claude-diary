@@ -152,7 +152,7 @@ Run this command to save the entry:
 
 ```bash
 # Create directory if needed
-PROJECT_NAME=$(basename "{{ cwd }}") && \
+PROJECT_NAME=$(git remote get-url origin 2>/dev/null | sed 's|.*/||; s|\.git$||' || basename "{{ cwd }}") && \
 mkdir -p ~/.claude/diary/${PROJECT_NAME} && \
 # Determine filename
 TODAY=$(date +%Y-%m-%d) && \

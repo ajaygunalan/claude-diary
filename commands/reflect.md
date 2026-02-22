@@ -17,25 +17,31 @@ If no parameters are provided, default to analyzing the **last 10 diary entries*
 
 ## Steps to Follow
 
-1. **Check processed entries log**:
-   - Read `~/.claude/diary/$(basename "{{ cwd }}")/reflections/processed.log` to find already-processed diary entries
+1. **Determine project name**:
+   ```bash
+   PROJECT_NAME=$(git remote get-url origin 2>/dev/null | sed 's|.*/||; s|\.git$||' || basename "{{ cwd }}")
+   ```
+   This resolves to the git repo name (e.g., `rcm_qp_drake`), which stays consistent across worktrees. Falls back to directory basename for non-git projects.
+
+2. **Check processed entries log**:
+   - Read `~/.claude/diary/${PROJECT_NAME}/reflections/processed.log` to find already-processed diary entries
    - Format: `[diary-filename] | [reflection-date] | [reflection-filename]`
    - Example: `2025-11-07-session-1.md | 2025-11-08 | 2025-11-reflection-1.md`
    - If file doesn't exist, all entries are unprocessed
-   - Create the file if it doesn't exist: `touch ~/.claude/diary/$(basename "{{ cwd }}")/reflections/processed.log`
+   - Create the file if it doesn't exist: `touch ~/.claude/diary/${PROJECT_NAME}/reflections/processed.log`
 
-2. **Locate diary entries**:
-   - Directory: `~/.claude/diary/$(basename "{{ cwd }}")/`
+3. **Locate diary entries**:
+   - Directory: `~/.claude/diary/${PROJECT_NAME}/`
    - Entries are named: `YYYY-MM-DD-session-N.md`
    - List all entries, sorted by date (newest first)
    - **Exclude already-processed entries** (unless user explicitly requests re-analysis)
 
-3. **Filter entries based on parameters**:
+4. **Filter entries based on parameters**:
    - If date range specified: only include entries within that range
    - If entry count specified: take the N most recent entries
    - If pattern filter specified: only include entries that mention the keyword in any section
 
-4. **Read and parse filtered diary entries**:
+5. **Read and parse filtered diary entries**:
    - Read each diary entry file
    - Extract information from all sections
    - Pay special attention to:
@@ -44,15 +50,15 @@ If no parameters are provided, default to analyzing the **last 10 diary entries*
      - Solutions Applied (what works well)
      - Challenges Encountered (what to avoid)
 
-5. **Create the reflections directory** (if it doesn't exist):
-   - Directory: `~/.claude/diary/$(basename "{{ cwd }}")/reflections/`
+6. **Create the reflections directory** (if it doesn't exist):
+   - Directory: `~/.claude/diary/${PROJECT_NAME}/reflections/`
    - Use `mkdir -p` to create it automatically
 
-6. **Read current CLAUDE.md to check for existing rules**:
+7. **Read current CLAUDE.md to check for existing rules**:
    - Read `{{ cwd }}/CLAUDE.md` to understand what rules already exist
    - This is CRITICAL for the next step
 
-7. **Analyze entries for patterns AND rule violations**:
+8. **Analyze entries for patterns AND rule violations**:
    - **Frequency analysis**: What preferences/patterns appear in multiple entries?
    - **Consistency check**: Are preferences consistent or contradictory?
    - **Context awareness**: Do patterns apply globally or to specific project types?
@@ -66,7 +72,7 @@ If no parameters are provided, default to analyzing the **last 10 diary entries*
      - Example: CLAUDE.md says "no AI attribution" but diary shows "User corrected: Don't add Claude attribution"
      - These violations mean the existing rule needs STRENGTHENING (more explicit, moved to top, zero tolerance language)
 
-8. **Synthesize insights** organized by category:
+9. **Synthesize insights** organized by category:
 
    **CRITICAL**: Focus on extracting concise, actionable rules suitable for CLAUDE.md (which is read into every session).
 
@@ -111,7 +117,7 @@ If no parameters are provided, default to analyzing the **last 10 diary entries*
    - Technology-specific preferences
    - Framework-specific conventions
 
-9. **Generate a reflection document** with this structure:
+10. **Generate a reflection document** with this structure:
 
 ```markdown
 # Reflection: [Date Range or "Last N Entries"]
@@ -248,11 +254,11 @@ Below are proposed additions to your `{{ cwd }}/CLAUDE.md` file. **Review these 
 - **Projects covered**: [list of unique projects]
 ```
 
-10. **Save the reflection document**:
+11. **Save the reflection document**:
    - Filename format: `YYYY-MM-reflection-N.md` (increment N if multiple reflections in same month)
-   - Save to: `~/.claude/diary/$(basename "{{ cwd }}")/reflections/[filename]`
+   - Save to: `~/.claude/diary/${PROJECT_NAME}/reflections/[filename]`
 
-11. **Automatically update CLAUDE.md**:
+12. **Automatically update CLAUDE.md**:
 
    **PRIORITY 1: Strengthen violated rules (if any rule violations detected)**
    - FIRST, handle any rule violations by strengthening existing CLAUDE.md rules
@@ -271,13 +277,13 @@ Below are proposed additions to your `{{ cwd }}/CLAUDE.md` file. **Review these 
    - List any strengthened rules (with before/after)
    - List any new rules added
 
-12. **Update processed entries log**:
-   - Append processed diary entries to `~/.claude/diary/$(basename "{{ cwd }}")/reflections/processed.log`
+13. **Update processed entries log**:
+   - Append processed diary entries to `~/.claude/diary/${PROJECT_NAME}/reflections/processed.log`
    - Format: `[diary-filename] | [YYYY-MM-DD] | [reflection-filename]`
    - One line per diary entry processed
    - Example: `2025-11-07-session-1.md | 2025-11-08 | 2025-11-reflection-1.md`
 
-13. **Present completion summary to user**:
+14. **Present completion summary to user**:
    - **FIRST**: Highlight any rule violations detected and how rules were strengthened
    - Display the reflection filename and location
    - Show how many patterns were identified
@@ -347,7 +353,7 @@ Before proposing a CLAUDE.md update, verify:
 
 ## Handling Already-Processed Entries
 
-**Default behavior**: Skip entries already listed in `~/.claude/diary/$(basename "{{ cwd }}")/reflections/processed.log`
+**Default behavior**: Skip entries already listed in `~/.claude/diary/${PROJECT_NAME}/reflections/processed.log`
 
 **User can override** with these flags:
 - "include all entries" - re-analyze everything including processed entries
