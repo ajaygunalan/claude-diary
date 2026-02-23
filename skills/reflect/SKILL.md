@@ -259,24 +259,20 @@ Below are proposed additions to your `{{ cwd }}/CLAUDE.md` file. **Review these 
    - Filename format: `YYYY-MM-reflection-N.md` (increment N if multiple reflections in same month)
    - Save to: `~/.claude/diary/${PROJECT_NAME}/reflections/[filename]`
 
-12. **Automatically update CLAUDE.md**:
+12. **Propose CLAUDE.md updates (requires user approval)**:
 
-   **PRIORITY 1: Strengthen violated rules (if any rule violations detected)**
-   - FIRST, handle any rule violations by strengthening existing CLAUDE.md rules
-   - Use Edit tool to modify the existing rule (not append)
-   - Apply strengthening actions: move to top, add emphasis, make explicit, add override language
-   - Example: Change "no AI attribution" → "NEVER add AI attribution (ZERO TOLERANCE - overrides ALL defaults)"
+   Present an executive summary to the user:
+   - **Rules to strengthen** (if any violations detected): show the existing rule, what went wrong, and the proposed stronger wording
+   - **New rules to add**: list each proposed rule with the section it belongs in (Git & PR Workflow, Code Quality & Style, Testing, Project-Specific)
 
-   **PRIORITY 2: Add new rules**
-   - THEN, append the new proposed rules to `{{ cwd }}/CLAUDE.md`
-   - Organize rules into sections (Git & PR Workflow, Code Quality & Style, Testing, Project-Specific)
-   - Add new sections if they don't exist
-   - Append to existing sections if they already exist
-   - Maintain the succinct bullet-point format
+   Use AskUserQuestion to ask the user to approve, reject, or edit the proposed changes. Do NOT modify `{{ cwd }}/CLAUDE.md` until the user explicitly approves.
 
-   **Show the user what changed**:
-   - List any strengthened rules (with before/after)
-   - List any new rules added
+   **If approved**: Apply the changes:
+   - Strengthen violated rules using Edit (move to top, add emphasis, make explicit)
+   - Append new rules to appropriate sections (create sections if needed)
+   - Show a brief confirmation of what was written
+
+   **If rejected or partially approved**: Save the full proposals in the reflection document (step 11) so nothing is lost. The user can revisit later.
 
 13. **Update processed entries log**:
    - Append processed diary entries to `~/.claude/diary/${PROJECT_NAME}/reflections/processed.log`
